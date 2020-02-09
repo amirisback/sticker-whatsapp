@@ -7,13 +7,13 @@ android {
     }
 
 // Declaration app name
-    def nameApp = "Base Music Player"
+    def nameApp = "Base Sticker WA"
 
     // Declaration apk / aab name
-    def nameAPK = "base-music-player"
+    def nameAPK = "base-sticker-wa"
 
     // Declaration Room DB Name
-    def nameDB = '"base_music_player.db"'
+    def nameDB = '"base_sticker_wa.db"'
 
     def versionPropsFile = file('version.properties')
     Properties versionProps = new Properties()
@@ -31,11 +31,12 @@ android {
 
     compileSdkVersion 29
     defaultConfig {
-        applicationId "com.example.samplestickerapp"
+        applicationId "com.frogobox.basestickerwa"
         minSdkVersion 15
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         def contentProviderAuthority = applicationId + ".stickercontentprovider"
         // Creates a placeholder property to use in the manifest.
