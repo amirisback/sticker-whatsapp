@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.example.samplestickerapp;
+package com.frogobox.basestickerwa;
 
 import android.view.View;
 import android.widget.ImageView;
