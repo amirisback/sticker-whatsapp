@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.frogobox.basestickerwa;
+package com.frogobox.basestickerwa.base;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -14,10 +14,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends BaseAdmobActivity {
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -28,7 +27,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         private static final String ARG_TITLE_ID = "title_id";
         private static final String ARG_MESSAGE = "message";
 
-        static DialogFragment newInstance(@StringRes int titleId, String message) {
+        public static DialogFragment newInstance(@StringRes int titleId, String message) {
             DialogFragment fragment = new MessageDialogFragment();
             Bundle arguments = new Bundle();
             arguments.putInt(ARG_TITLE_ID, titleId);

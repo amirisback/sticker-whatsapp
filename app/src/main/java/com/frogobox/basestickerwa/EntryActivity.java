@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.frogobox.basestickerwa.base.BaseActivity;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 

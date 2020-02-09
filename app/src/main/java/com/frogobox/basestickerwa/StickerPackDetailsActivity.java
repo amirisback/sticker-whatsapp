@@ -85,6 +85,9 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(showUpButton);
             getSupportActionBar().setTitle(showUpButton ? getResources().getString(R.string.title_activity_sticker_pack_details_multiple_pack) : getResources().getQuantityString(R.plurals.title_activity_sticker_packs_list, 1));
         }
+
+        setupShowAdsBanner(findViewById(R.id.ads_phone_tab_special_smart_banner));
+
     }
 
 

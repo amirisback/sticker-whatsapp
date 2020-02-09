@@ -24,6 +24,8 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.IdRes;
 import androidx.core.view.ViewCompat;
 
+import com.frogobox.basestickerwa.base.BaseActivity;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
