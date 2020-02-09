@@ -5,6 +5,30 @@ android {
     aaptOptions {
         noCompress "webp"
     }
+
+// Declaration app name
+    def nameApp = "Base Music Player"
+
+    // Declaration apk / aab name
+    def nameAPK = "base-music-player"
+
+    // Declaration Room DB Name
+    def nameDB = '"base_music_player.db"'
+
+    def versionPropsFile = file('version.properties')
+    Properties versionProps = new Properties()
+
+    if (versionPropsFile.canRead()) {
+        versionProps.load(new FileInputStream(versionPropsFile))
+    } else {
+        versionProps['VERSION_CODE'] = '0'
+    }
+
+    def code = versionProps['VERSION_CODE'].toInteger()
+
+    versionProps['VERSION_CODE'] = code.toString()
+    versionProps.store(versionPropsFile.newWriter(), null)
+
     compileSdkVersion 29
     defaultConfig {
         applicationId "com.example.samplestickerapp"
@@ -21,7 +45,56 @@ android {
         buildConfigField("String",
                 "CONTENT_PROVIDER_AUTHORITY",
                 "\"${contentProviderAuthority}\"")
+
+        buildConfigField("String", "DATABASE_NAME", nameDB)
+
+        // Declaration apps name debug mode
+        def debugAttribute = " Development"
+        def nameAppDebug = nameApp + debugAttribute
+
+        // Declaration admob id for debug
+        def debugAdmobPublisherId = "ca-app-pub-3940256099942544~3347511713"
+        def debugAdmobBanner = "ca-app-pub-3940256099942544/6300978111"
+        def debugAdmobInterstitial = "ca-app-pub-3940256099942544/1033173712"
+        def debugAdmobInterstitialVideo = "ca-app-pub-3940256099942544/8691691433"
+        def debugAdmobRewardedVideo = "ca-app-pub-3940256099942544/5224354917"
+        def debugAdmobNativeAdvanced = "ca-app-pub-3940256099942544/2247696110"
+        def debugAdmobNativeAdvancedVideo = "ca-app-pub-3940256099942544/1044960115"
+
+        // Naming APK // AAB
+        setProperty("archivesBaseName", nameAPK + versionName + "#" + code + "-"
+                + new Date().format('ddMMyy'))
+
+        resConfigs "en", "id"
+        vectorDrawables.useSupportLibrary = true
+
+        // Inject app name for debug
+        resValue "string", "app_name", nameAppDebug
+
+        // Inject admob id for debug
+        resValue "string", "admob_publisher_id", debugAdmobPublisherId
+        resValue "string", "admob_banner", debugAdmobBanner
+        resValue "string", "admob_interstitial", debugAdmobInterstitial
+        resValue "string", "admob_interstitial_video", debugAdmobInterstitialVideo
+        resValue "string", "admob_rewarded_video", debugAdmobRewardedVideo
+        resValue "string", "admob_native_advanced", debugAdmobNativeAdvanced
+        resValue "string", "admob_native_advanced_video", debugAdmobNativeAdvancedVideo
+
     }
+
+    signingConfigs {
+        release {
+            // You need to specify either an absolute path or include the
+            // keystore file in the same directory as the build.gradle file.
+            // [PROJECT FOLDER NAME/app/[COPY YOUT KEY STORE] .jks in here
+            storeFile file("frogoboxdev.jks")
+            storePassword "cronoclez"
+            keyAlias "frogobox"
+            keyPassword "xeonranger"
+        }
+    }
+
+
     buildTypes {
         debug {
             minifyEnabled false
@@ -32,6 +105,31 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            // Generated Signed APK / AAB
+            signingConfig signingConfigs.release
+
+            // Declaration admob id for release
+            def releaseAdmobPublisherId = "ca-app-pub-3940256099942544~3347511713"
+            def releaseAdmobBanner = "ca-app-pub-3940256099942544/6300978111"
+            def releaseAdmobInterstitial = "ca-app-pub-3940256099942544/1033173712"
+            def releaseAdmobInterstitialVideo = "ca-app-pub-3940256099942544/8691691433"
+            def releaseAdmobRewardedVideo = "ca-app-pub-3940256099942544/5224354917"
+            def releaseAdmobNativeAdvanced = "ca-app-pub-3940256099942544/2247696110"
+            def releaseAdmobNativeAdvancedVideo = "ca-app-pub-3940256099942544/1044960115"
+
+            // Inject app name for release
+            resValue "string", "app_name", nameApp
+
+            // Inject admob id for release
+            resValue "string", "admob_publisher_id", releaseAdmobPublisherId
+            resValue "string", "admob_banner", releaseAdmobBanner
+            resValue "string", "admob_interstitial", releaseAdmobInterstitial
+            resValue "string", "admob_interstitial_video", releaseAdmobInterstitialVideo
+            resValue "string", "admob_rewarded_video", releaseAdmobRewardedVideo
+            resValue "string", "admob_native_advanced", releaseAdmobNativeAdvanced
+            resValue "string", "admob_native_advanced_video", releaseAdmobNativeAdvancedVideo
+
         }
     }
     compileOptions {
@@ -101,12 +199,16 @@ tasks.whenTaskAdded { task ->
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    testImplementation 'junit:junit:4.12'
+    implementation 'com.google.android.material:material:1.1.0'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+    // lib google ads
+    implementation 'com.google.android.gms:play-services-ads:18.3.0'
+
     def fresco_version = '2.1.0'
     implementation "com.facebook.fresco:fresco:$fresco_version"
     implementation "com.facebook.fresco:webpsupport:$fresco_version"
