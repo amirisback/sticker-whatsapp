@@ -40,7 +40,7 @@ public class StickerPackListActivity extends AddStickerPackActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getResources().getQuantityString(R.plurals.title_activity_sticker_packs_list, stickerPackList.size()));
         }
-
+        setupShowAdsInterstitial();
     }
 
     @Override

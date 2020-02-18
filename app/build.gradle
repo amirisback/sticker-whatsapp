@@ -8,14 +8,8 @@ android {
         noCompress "webp"
     }
 
-// Declaration app name
+    // Declaration app name
     def nameApp = "Base Sticker WA"
-
-    // Declaration apk / aab name
-    def nameAPK = "base-sticker-wa"
-
-    // Declaration Room DB Name
-    def nameDB = '"base_sticker_wa.db"'
 
     def versionPropsFile = file('version.properties')
     Properties versionProps = new Properties()
@@ -25,6 +19,9 @@ android {
     } else {
         versionProps['VERSION_CODE'] = '0'
     }
+
+    // Declaration apk / aab name
+    def nameAPK = nameApp.toLowerCase().replace(" ", "-")
 
     def code = versionProps['VERSION_CODE'].toInteger()
 
@@ -51,7 +48,10 @@ android {
                 "CONTENT_PROVIDER_AUTHORITY",
                 "\"${contentProviderAuthority}\"")
 
-        buildConfigField("String", "DATABASE_NAME", nameDB)
+        // Declaration Room DB Name
+        def nameDB = applicationId.replace(".","_").concat(".db")
+
+        buildConfigField("String", "DATABASE_NAME", "\"${nameDB}\"")
 
         // Declaration apps name debug mode
         def debugAttribute = " Development"
@@ -115,13 +115,13 @@ android {
             signingConfig signingConfigs.release
 
             // Declaration admob id for release
-            def releaseAdmobPublisherId = "ca-app-pub-3940256099942544~3347511713"
-            def releaseAdmobBanner = "ca-app-pub-3940256099942544/6300978111"
-            def releaseAdmobInterstitial = "ca-app-pub-3940256099942544/1033173712"
-            def releaseAdmobInterstitialVideo = "ca-app-pub-3940256099942544/8691691433"
-            def releaseAdmobRewardedVideo = "ca-app-pub-3940256099942544/5224354917"
-            def releaseAdmobNativeAdvanced = "ca-app-pub-3940256099942544/2247696110"
-            def releaseAdmobNativeAdvancedVideo = "ca-app-pub-3940256099942544/1044960115"
+            def releaseAdmobPublisherId = ""
+            def releaseAdmobBanner = ""
+            def releaseAdmobInterstitial = ""
+            def releaseAdmobInterstitialVideo = ""
+            def releaseAdmobRewardedVideo = ""
+            def releaseAdmobNativeAdvanced = ""
+            def releaseAdmobNativeAdvancedVideo = ""
 
             // Inject app name for release
             resValue "string", "app_name", nameApp

@@ -29,6 +29,7 @@ public abstract class AddStickerPackActivity extends BaseActivity {
     private static final String TAG = "AddStickerPackActivity";
 
     protected void addStickerPackToWhatsApp(String identifier, String stickerPackName) {
+        setupShowAdsInterstitial();
         try {
             //if neither WhatsApp Consumer or WhatsApp Business is installed, then tell user to install the apps.
             if (!WhitelistCheck.isWhatsAppConsumerAppInstalled(getPackageManager()) && !WhitelistCheck.isWhatsAppSmbAppInstalled(getPackageManager())) {
@@ -47,7 +48,7 @@ public abstract class AddStickerPackActivity extends BaseActivity {
             } else {
                 Toast.makeText(this, R.string.add_pack_fail_prompt_update_whatsapp, Toast.LENGTH_LONG).show();
             }
-            setupShowAdsInterstitial();
+
         } catch (Exception e) {
             Log.e(TAG, "error adding sticker pack to WhatsApp", e);
             Toast.makeText(this, R.string.add_pack_fail_prompt_update_whatsapp, Toast.LENGTH_LONG).show();
