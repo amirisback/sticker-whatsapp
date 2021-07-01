@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.frogobox.basestickerwa;
+package com.frogobox.basestickerwa.ui.stikerpack.list;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,10 +24,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.frogobox.basestickerwa.R;
+import com.frogobox.basestickerwa.model.StickerPack;
+import com.frogobox.basestickerwa.ui.stikerpack.detail.StickerPackDetailsActivity;
+import com.frogobox.basestickerwa.util.StickerPackLoader;
 
 import java.util.List;
 
-public class StickerPackListAdapter extends RecyclerView.Adapter<StickerPackListItemViewHolder> {
+public class StickerPackListAdapter extends RecyclerView.Adapter<StickerPackListViewHolder> {
     @NonNull
     private List<StickerPack> stickerPacks;
     @NonNull
@@ -42,15 +46,15 @@ public class StickerPackListAdapter extends RecyclerView.Adapter<StickerPackList
 
     @NonNull
     @Override
-    public StickerPackListItemViewHolder onCreateViewHolder(@NonNull final ViewGroup viewGroup, final int i) {
+    public StickerPackListViewHolder onCreateViewHolder(@NonNull final ViewGroup viewGroup, final int i) {
         final Context context = viewGroup.getContext();
         final LayoutInflater layoutInflater = LayoutInflater.from(context);
         final View stickerPackRow = layoutInflater.inflate(R.layout.sticker_packs_list_item, viewGroup, false);
-        return new StickerPackListItemViewHolder(stickerPackRow);
+        return new StickerPackListViewHolder(stickerPackRow);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final StickerPackListItemViewHolder viewHolder, final int index) {
+    public void onBindViewHolder(@NonNull final StickerPackListViewHolder viewHolder, final int index) {
         StickerPack pack = stickerPacks.get(index);
         final Context context = viewHolder.publisherView.getContext();
         viewHolder.publisherView.setText(pack.publisher);

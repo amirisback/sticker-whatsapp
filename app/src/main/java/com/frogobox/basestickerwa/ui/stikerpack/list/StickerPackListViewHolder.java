@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.frogobox.basestickerwa;
+package com.frogobox.basestickerwa.ui.stikerpack.list;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -15,7 +15,9 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-class StickerPackListItemViewHolder extends RecyclerView.ViewHolder {
+import com.frogobox.basestickerwa.R;
+
+class StickerPackListViewHolder extends RecyclerView.ViewHolder {
 
     final View container;
     final TextView titleView;
@@ -24,7 +26,7 @@ class StickerPackListItemViewHolder extends RecyclerView.ViewHolder {
     final ImageView addButton;
     final LinearLayout imageRowView;
 
-    StickerPackListItemViewHolder(final View itemView) {
+    StickerPackListViewHolder(final View itemView) {
         super(itemView);
         container = itemView;
         titleView = itemView.findViewById(R.id.sticker_pack_title);

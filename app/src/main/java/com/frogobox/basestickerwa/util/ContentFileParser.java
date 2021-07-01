@@ -6,12 +6,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.frogobox.basestickerwa;
+package com.frogobox.basestickerwa.util;
 
 import android.text.TextUtils;
 import android.util.JsonReader;
 
 import androidx.annotation.NonNull;
+
+import com.frogobox.basestickerwa.model.Sticker;
+import com.frogobox.basestickerwa.model.StickerPack;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,12 +22,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-class ContentFileParser {
+public class ContentFileParser {
 
     private static final int LIMIT_EMOJI_COUNT = 3;
 
     @NonNull
-    static List<StickerPack> parseStickerPacks(@NonNull InputStream contentsInputStream) throws IOException, IllegalStateException {
+    public static List<StickerPack> parseStickerPacks(@NonNull InputStream contentsInputStream) throws IOException, IllegalStateException {
         try (JsonReader reader = new JsonReader(new InputStreamReader(contentsInputStream))) {
             return readStickerPacks(reader);
         }

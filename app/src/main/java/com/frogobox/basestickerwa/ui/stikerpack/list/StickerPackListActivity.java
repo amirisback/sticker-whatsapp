@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.frogobox.basestickerwa;
+package com.frogobox.basestickerwa.ui.stikerpack.list;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +14,11 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.frogobox.basestickerwa.R;
+import com.frogobox.basestickerwa.model.StickerPack;
+import com.frogobox.basestickerwa.ui.addstiker.AddStickerPackActivity;
+import com.frogobox.basestickerwa.util.WhitelistCheck;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -79,7 +84,7 @@ public class StickerPackListActivity extends AddStickerPackActivity {
     private void recalculateColumnCount() {
         final int previewSize = getResources().getDimensionPixelSize(R.dimen.sticker_pack_list_item_preview_image_size);
         int firstVisibleItemPosition = packLayoutManager.findFirstVisibleItemPosition();
-        StickerPackListItemViewHolder viewHolder = (StickerPackListItemViewHolder) packRecyclerView.findViewHolderForAdapterPosition(firstVisibleItemPosition);
+        StickerPackListViewHolder viewHolder = (StickerPackListViewHolder) packRecyclerView.findViewHolderForAdapterPosition(firstVisibleItemPosition);
         if (viewHolder != null) {
             final int widthOfImageRow = viewHolder.imageRowView.getMeasuredWidth();
             final int max = Math.max(widthOfImageRow / previewSize, 1);

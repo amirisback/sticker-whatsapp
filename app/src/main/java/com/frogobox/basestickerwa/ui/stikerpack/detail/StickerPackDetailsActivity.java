@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.frogobox.basestickerwa;
+package com.frogobox.basestickerwa.ui.stikerpack.detail;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -23,6 +23,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.frogobox.basestickerwa.R;
+import com.frogobox.basestickerwa.model.StickerPack;
+import com.frogobox.basestickerwa.ui.addstiker.AddStickerPackActivity;
+import com.frogobox.basestickerwa.ui.stikerpack.info.StickerPackInfoActivity;
+import com.frogobox.basestickerwa.util.StickerPackLoader;
+import com.frogobox.basestickerwa.util.WhitelistCheck;
 
 import java.lang.ref.WeakReference;
 

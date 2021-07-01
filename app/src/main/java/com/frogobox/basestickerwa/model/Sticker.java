@@ -6,19 +6,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.frogobox.basestickerwa;
+package com.frogobox.basestickerwa.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.List;
 
-class Sticker implements Parcelable {
-    final String imageFileName;
-    final List<String> emojis;
+public class Sticker implements Parcelable {
+    public final String imageFileName;
+    public final List<String> emojis;
     long size;
 
-    Sticker(String imageFileName, List<String> emojis) {
+    public Sticker(String imageFileName, List<String> emojis) {
         this.imageFileName = imageFileName;
         this.emojis = emojis;
     }

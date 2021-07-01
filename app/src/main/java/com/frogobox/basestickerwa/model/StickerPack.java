@@ -6,32 +6,32 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.frogobox.basestickerwa;
+package com.frogobox.basestickerwa.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.List;
 
-class StickerPack implements Parcelable {
-    final String identifier;
-    final String name;
-    final String publisher;
-    final String trayImageFile;
-    final String publisherEmail;
-    final String publisherWebsite;
-    final String privacyPolicyWebsite;
-    final String licenseAgreementWebsite;
-    final String imageDataVersion;
-    final boolean avoidCache;
+public class StickerPack implements Parcelable {
+    public final String identifier;
+    public final String name;
+    public final String publisher;
+    public final String trayImageFile;
+    public final String publisherEmail;
+    public final String publisherWebsite;
+    public final String privacyPolicyWebsite;
+    public final String licenseAgreementWebsite;
+    public final String imageDataVersion;
+    public final boolean avoidCache;
 
-    String iosAppStoreLink;
+    public String iosAppStoreLink;
     private List<Sticker> stickers;
     private long totalSize;
-    String androidPlayStoreLink;
+    public String androidPlayStoreLink;
     private boolean isWhitelisted;
 
-    StickerPack(String identifier, String name, String publisher, String trayImageFile, String publisherEmail, String publisherWebsite, String privacyPolicyWebsite, String licenseAgreementWebsite, String imageDataVersion, boolean avoidCache) {
+    public StickerPack(String identifier, String name, String publisher, String trayImageFile, String publisherEmail, String publisherWebsite, String privacyPolicyWebsite, String licenseAgreementWebsite, String imageDataVersion, boolean avoidCache) {
         this.identifier = identifier;
         this.name = name;
         this.publisher = publisher;
@@ -44,11 +44,11 @@ class StickerPack implements Parcelable {
         this.avoidCache = avoidCache;
     }
 
-    void setIsWhitelisted(boolean isWhitelisted) {
+    public void setIsWhitelisted(boolean isWhitelisted) {
         this.isWhitelisted = isWhitelisted;
     }
 
-    boolean getIsWhitelisted() {
+    public boolean getIsWhitelisted() {
         return isWhitelisted;
     }
 
@@ -82,7 +82,7 @@ class StickerPack implements Parcelable {
         }
     };
 
-    void setStickers(List<Sticker> stickers) {
+    public void setStickers(List<Sticker> stickers) {
         this.stickers = stickers;
         totalSize = 0;
         for (Sticker sticker : stickers) {
@@ -90,19 +90,19 @@ class StickerPack implements Parcelable {
         }
     }
 
-    void setAndroidPlayStoreLink(String androidPlayStoreLink) {
+    public void setAndroidPlayStoreLink(String androidPlayStoreLink) {
         this.androidPlayStoreLink = androidPlayStoreLink;
     }
 
-    void setIosAppStoreLink(String iosAppStoreLink) {
+    public void setIosAppStoreLink(String iosAppStoreLink) {
         this.iosAppStoreLink = iosAppStoreLink;
     }
 
-    List<Sticker> getStickers() {
+    public List<Sticker> getStickers() {
         return stickers;
     }
 
-    long getTotalSize() {
+    public long getTotalSize() {
         return totalSize;
     }
 

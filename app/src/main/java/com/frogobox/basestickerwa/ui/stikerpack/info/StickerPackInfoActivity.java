@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.frogobox.basestickerwa;
+package com.frogobox.basestickerwa.ui.stikerpack.info;
 
 import android.content.Intent;
 import android.graphics.Rect;
@@ -24,7 +24,9 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.IdRes;
 import androidx.core.view.ViewCompat;
 
+import com.frogobox.basestickerwa.R;
 import com.frogobox.basestickerwa.base.BaseActivity;
+import com.frogobox.basestickerwa.ui.stikerpack.detail.StickerPackDetailsActivity;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;

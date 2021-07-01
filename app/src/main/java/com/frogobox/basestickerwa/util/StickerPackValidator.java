@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.frogobox.basestickerwa;
+package com.frogobox.basestickerwa.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -19,13 +19,16 @@ import android.webkit.URLUtil;
 import androidx.annotation.NonNull;
 
 import com.facebook.animated.webp.WebPImage;
+import com.frogobox.basestickerwa.model.Sticker;
+import com.frogobox.basestickerwa.model.StickerPack;
+import com.frogobox.basestickerwa.util.StickerPackLoader;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-class StickerPackValidator {
+public class StickerPackValidator {
     private static final int STICKER_FILE_SIZE_LIMIT_KB = 100;
     private static final int EMOJI_LIMIT = 3;
     private static final int IMAGE_HEIGHT = 512;
@@ -44,7 +47,7 @@ class StickerPackValidator {
     /**
      * Checks whether a sticker pack contains valid data
      */
-    static void verifyStickerPackValidity(@NonNull Context context, @NonNull StickerPack stickerPack) throws IllegalStateException {
+    public static void verifyStickerPackValidity(@NonNull Context context, @NonNull StickerPack stickerPack) throws IllegalStateException {
         if (TextUtils.isEmpty(stickerPack.identifier)) {
             throw new IllegalStateException("sticker pack identifier is empty");
         }

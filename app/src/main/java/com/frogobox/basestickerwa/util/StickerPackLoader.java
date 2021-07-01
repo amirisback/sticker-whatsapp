@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.frogobox.basestickerwa;
+package com.frogobox.basestickerwa.util;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -14,6 +14,11 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
+
+import com.frogobox.basestickerwa.BuildConfig;
+import com.frogobox.basestickerwa.model.Sticker;
+import com.frogobox.basestickerwa.model.StickerPack;
+import com.frogobox.basestickerwa.provider.StickerContentProvider;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -23,28 +28,28 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import static com.frogobox.basestickerwa.StickerContentProvider.ANDROID_APP_DOWNLOAD_LINK_IN_QUERY;
-import static com.frogobox.basestickerwa.StickerContentProvider.AVOID_CACHE;
-import static com.frogobox.basestickerwa.StickerContentProvider.IOS_APP_DOWNLOAD_LINK_IN_QUERY;
-import static com.frogobox.basestickerwa.StickerContentProvider.LICENSE_AGREENMENT_WEBSITE;
-import static com.frogobox.basestickerwa.StickerContentProvider.PRIVACY_POLICY_WEBSITE;
-import static com.frogobox.basestickerwa.StickerContentProvider.PUBLISHER_EMAIL;
-import static com.frogobox.basestickerwa.StickerContentProvider.PUBLISHER_WEBSITE;
-import static com.frogobox.basestickerwa.StickerContentProvider.STICKER_FILE_EMOJI_IN_QUERY;
-import static com.frogobox.basestickerwa.StickerContentProvider.STICKER_FILE_NAME_IN_QUERY;
-import static com.frogobox.basestickerwa.StickerContentProvider.STICKER_PACK_ICON_IN_QUERY;
-import static com.frogobox.basestickerwa.StickerContentProvider.STICKER_PACK_IDENTIFIER_IN_QUERY;
-import static com.frogobox.basestickerwa.StickerContentProvider.STICKER_PACK_NAME_IN_QUERY;
-import static com.frogobox.basestickerwa.StickerContentProvider.STICKER_PACK_PUBLISHER_IN_QUERY;
-import static com.frogobox.basestickerwa.StickerContentProvider.IMAGE_DATA_VERSION;
+import static com.frogobox.basestickerwa.provider.StickerContentProvider.ANDROID_APP_DOWNLOAD_LINK_IN_QUERY;
+import static com.frogobox.basestickerwa.provider.StickerContentProvider.AVOID_CACHE;
+import static com.frogobox.basestickerwa.provider.StickerContentProvider.IOS_APP_DOWNLOAD_LINK_IN_QUERY;
+import static com.frogobox.basestickerwa.provider.StickerContentProvider.LICENSE_AGREENMENT_WEBSITE;
+import static com.frogobox.basestickerwa.provider.StickerContentProvider.PRIVACY_POLICY_WEBSITE;
+import static com.frogobox.basestickerwa.provider.StickerContentProvider.PUBLISHER_EMAIL;
+import static com.frogobox.basestickerwa.provider.StickerContentProvider.PUBLISHER_WEBSITE;
+import static com.frogobox.basestickerwa.provider.StickerContentProvider.STICKER_FILE_EMOJI_IN_QUERY;
+import static com.frogobox.basestickerwa.provider.StickerContentProvider.STICKER_FILE_NAME_IN_QUERY;
+import static com.frogobox.basestickerwa.provider.StickerContentProvider.STICKER_PACK_ICON_IN_QUERY;
+import static com.frogobox.basestickerwa.provider.StickerContentProvider.STICKER_PACK_IDENTIFIER_IN_QUERY;
+import static com.frogobox.basestickerwa.provider.StickerContentProvider.STICKER_PACK_NAME_IN_QUERY;
+import static com.frogobox.basestickerwa.provider.StickerContentProvider.STICKER_PACK_PUBLISHER_IN_QUERY;
+import static com.frogobox.basestickerwa.provider.StickerContentProvider.IMAGE_DATA_VERSION;
 
-class StickerPackLoader {
+public class StickerPackLoader {
 
     /**
      * Get the list of sticker packs for the sticker content provider
      */
     @NonNull
-    static ArrayList<StickerPack> fetchStickerPacks(Context context) throws IllegalStateException {
+    public static ArrayList<StickerPack> fetchStickerPacks(Context context) throws IllegalStateException {
         final Cursor cursor = context.getContentResolver().query(StickerContentProvider.AUTHORITY_URI, null, null, null, null);
         if (cursor == null) {
             throw new IllegalStateException("could not fetch from content provider, " + BuildConfig.CONTENT_PROVIDER_AUTHORITY);
@@ -154,7 +159,7 @@ class StickerPackLoader {
         return new Uri.Builder().scheme(ContentResolver.SCHEME_CONTENT).authority(BuildConfig.CONTENT_PROVIDER_AUTHORITY).appendPath(StickerContentProvider.STICKERS).appendPath(identifier).build();
     }
 
-    static Uri getStickerAssetUri(String identifier, String stickerName) {
+    public static Uri getStickerAssetUri(String identifier, String stickerName) {
         return new Uri.Builder().scheme(ContentResolver.SCHEME_CONTENT).authority(BuildConfig.CONTENT_PROVIDER_AUTHORITY).appendPath(StickerContentProvider.STICKERS_ASSET).appendPath(identifier).appendPath(stickerName).build();
     }
 }

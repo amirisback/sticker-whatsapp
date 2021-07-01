@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.frogobox.basestickerwa;
+package com.frogobox.basestickerwa.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -23,6 +23,11 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.frogobox.basestickerwa.BuildConfig;
+import com.frogobox.basestickerwa.model.Sticker;
+import com.frogobox.basestickerwa.model.StickerPack;
+import com.frogobox.basestickerwa.util.ContentFileParser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,10 +69,10 @@ public class StickerContentProvider extends ContentProvider {
 
     private static final int METADATA_CODE_FOR_SINGLE_PACK = 2;
 
-    static final String STICKERS = "stickers";
+    public static final String STICKERS = "stickers";
     private static final int STICKERS_CODE = 3;
 
-    static final String STICKERS_ASSET = "stickers_asset";
+    public static final String STICKERS_ASSET = "stickers_asset";
     private static final int STICKERS_ASSET_CODE = 4;
 
     private static final int STICKER_PACK_TRAY_ICON_CODE = 5;

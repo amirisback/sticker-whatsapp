@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.frogobox.basestickerwa;
+package com.frogobox.basestickerwa.util;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -18,17 +18,19 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
-class WhitelistCheck {
+import com.frogobox.basestickerwa.BuildConfig;
+
+public class WhitelistCheck {
     private static final String AUTHORITY_QUERY_PARAM = "authority";
     private static final String IDENTIFIER_QUERY_PARAM = "identifier";
     private static final String STICKER_APP_AUTHORITY = BuildConfig.CONTENT_PROVIDER_AUTHORITY;
-    static final String CONSUMER_WHATSAPP_PACKAGE_NAME = "com.whatsapp";
-    static final String SMB_WHATSAPP_PACKAGE_NAME = "com.whatsapp.w4b";
+    public static final String CONSUMER_WHATSAPP_PACKAGE_NAME = "com.whatsapp";
+    public static final String SMB_WHATSAPP_PACKAGE_NAME = "com.whatsapp.w4b";
     private static final String CONTENT_PROVIDER = ".provider.sticker_whitelist_check";
     private static final String QUERY_PATH = "is_whitelisted";
     private static final String QUERY_RESULT_COLUMN_NAME = "result";
 
-    static boolean isWhitelisted(@NonNull Context context, @NonNull String identifier) {
+    public static boolean isWhitelisted(@NonNull Context context, @NonNull String identifier) {
         try {
             if (!isWhatsAppConsumerAppInstalled(context.getPackageManager()) && !isWhatsAppSmbAppInstalled(context.getPackageManager())) {
                 return false;
@@ -41,7 +43,7 @@ class WhitelistCheck {
         }
     }
 
-    private static boolean isWhitelistedFromProvider(@NonNull Context context, @NonNull String identifier, String whatsappPackageName) {
+    public static boolean isWhitelistedFromProvider(@NonNull Context context, @NonNull String identifier, String whatsappPackageName) {
         final PackageManager packageManager = context.getPackageManager();
         if (isPackageInstalled(whatsappPackageName, packageManager)) {
             final String whatsappProviderAuthority = whatsappPackageName + CONTENT_PROVIDER;
@@ -64,7 +66,7 @@ class WhitelistCheck {
         return false;
     }
 
-    static boolean isPackageInstalled(String packageName, PackageManager packageManager) {
+    public static boolean isPackageInstalled(String packageName, PackageManager packageManager) {
         try {
             final ApplicationInfo applicationInfo = packageManager.getApplicationInfo(packageName, 0);
             //noinspection SimplifiableIfStatement
@@ -78,19 +80,19 @@ class WhitelistCheck {
         }
     }
 
-    static boolean isWhatsAppConsumerAppInstalled(PackageManager packageManager) {
+    public static boolean isWhatsAppConsumerAppInstalled(PackageManager packageManager) {
         return WhitelistCheck.isPackageInstalled(CONSUMER_WHATSAPP_PACKAGE_NAME, packageManager);
     }
 
-    static boolean isWhatsAppSmbAppInstalled(PackageManager packageManager) {
+    public static boolean isWhatsAppSmbAppInstalled(PackageManager packageManager) {
         return WhitelistCheck.isPackageInstalled(SMB_WHATSAPP_PACKAGE_NAME, packageManager);
     }
 
-    static boolean isStickerPackWhitelistedInWhatsAppConsumer(@NonNull Context context, @NonNull String identifier) {
+    public static boolean isStickerPackWhitelistedInWhatsAppConsumer(@NonNull Context context, @NonNull String identifier) {
         return isWhitelistedFromProvider(context, identifier, CONSUMER_WHATSAPP_PACKAGE_NAME);
     }
 
-    static boolean isStickerPackWhitelistedInWhatsAppSmb(@NonNull Context context, @NonNull String identifier) {
+    public static boolean isStickerPackWhitelistedInWhatsAppSmb(@NonNull Context context, @NonNull String identifier) {
         return isWhitelistedFromProvider(context, identifier, SMB_WHATSAPP_PACKAGE_NAME);
     }
 }

@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.frogobox.basestickerwa;
+package com.frogobox.basestickerwa.ui.stikerpack.detail;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +14,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.frogobox.basestickerwa.R;
+import com.frogobox.basestickerwa.model.StickerPack;
+import com.frogobox.basestickerwa.util.StickerPackLoader;
 
 public class StickerPreviewAdapter extends RecyclerView.Adapter<StickerPreviewViewHolder> {
 
@@ -27,7 +31,7 @@ public class StickerPreviewAdapter extends RecyclerView.Adapter<StickerPreviewVi
 
     private final LayoutInflater layoutInflater;
 
-    StickerPreviewAdapter(
+    public StickerPreviewAdapter(
             @NonNull final LayoutInflater layoutInflater,
             final int errorResource,
             final int cellSize,
