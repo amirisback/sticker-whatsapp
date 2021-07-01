@@ -5,52 +5,64 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree.
  */
+package com.frogobox.basestickerwa.base
 
-package com.frogobox.basestickerwa.base;
+import android.app.Dialog
+import android.content.DialogInterface
+import android.os.Bundle
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
+import com.frogobox.admob.core.admob.FrogoAdmobActivity
+import com.frogobox.basestickerwa.R
 
-import android.app.Dialog;
-import android.os.Bundle;
+abstract class BaseActivity : FrogoAdmobActivity() {
 
-import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
-
-public abstract class BaseActivity extends BaseAdmobActivity {
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setupAdmob()
     }
 
-    public static final class MessageDialogFragment extends DialogFragment {
-        private static final String ARG_TITLE_ID = "title_id";
-        private static final String ARG_MESSAGE = "message";
+    private fun setupAdmob() {
+        setBasePublisherID(getString(R.string.admob_publisher_id))
+        setBaseBannerAdUnitID(getString(R.string.admob_banner))
+        setBaseInterstialAdUnitID(getString(R.string.admob_interstitial))
+        setBaseRewardedAdUnitID(getString(R.string.admob_rewarded_video))
+        setBaseAdmob()
+    }
 
-        public static DialogFragment newInstance(@StringRes int titleId, String message) {
-            DialogFragment fragment = new MessageDialogFragment();
-            Bundle arguments = new Bundle();
-            arguments.putInt(ARG_TITLE_ID, titleId);
-            arguments.putString(ARG_MESSAGE, message);
-            fragment.setArguments(arguments);
-            return fragment;
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    class MessageDialogFragment : DialogFragment() {
+        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            @StringRes val title = requireArguments().getInt(ARG_TITLE_ID)
+            val message = requireArguments().getString(ARG_MESSAGE)
+            val dialogBuilder = AlertDialog.Builder(requireActivity())
+                .setMessage(message)
+                .setCancelable(true)
+                .setPositiveButton(android.R.string.ok) { dialog: DialogInterface?, which: Int -> dismiss() }
+            if (title != 0) {
+                dialogBuilder.setTitle(title)
+            }
+            return dialogBuilder.create()
         }
 
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            @StringRes final int title = getArguments().getInt(ARG_TITLE_ID);
-            String message = getArguments().getString(ARG_MESSAGE);
+        companion object {
+            private const val ARG_TITLE_ID = "title_id"
+            private const val ARG_MESSAGE = "message"
 
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity())
-                    .setMessage(message)
-                    .setCancelable(true)
-                    .setPositiveButton(android.R.string.ok, (dialog, which) -> dismiss());
-
-            if (title != 0) {
-                dialogBuilder.setTitle(title);
+            @JvmStatic
+            fun newInstance(@StringRes titleId: Int, message: String?): DialogFragment {
+                val fragment: DialogFragment = MessageDialogFragment()
+                val arguments = Bundle()
+                arguments.putInt(ARG_TITLE_ID, titleId)
+                arguments.putString(ARG_MESSAGE, message)
+                fragment.arguments = arguments
+                return fragment
             }
-            return dialogBuilder.create();
         }
     }
 }

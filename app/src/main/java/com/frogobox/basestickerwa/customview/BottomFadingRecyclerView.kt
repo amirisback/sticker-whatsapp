@@ -5,30 +5,25 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree.
  */
+package com.frogobox.basestickerwa.customview
 
-package com.frogobox.basestickerwa.customview;
+import android.content.Context
+import android.util.AttributeSet
+import androidx.recyclerview.widget.RecyclerView
 
-import android.content.Context;
-import android.util.AttributeSet;
-
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
-
-public class BottomFadingRecyclerView extends RecyclerView {
-    public BottomFadingRecyclerView(Context context) {
-        super(context);
+class BottomFadingRecyclerView : RecyclerView {
+    constructor(context: Context?) : super(context!!) {}
+    constructor(context: Context?, attrs: AttributeSet?) : super(
+        context!!, attrs
+    ) {
     }
 
-    public BottomFadingRecyclerView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(
+        context!!, attrs, defStyle
+    ) {
     }
 
-    public BottomFadingRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-    }
-
-    @Override
-    protected float getTopFadingEdgeStrength() {
-        return 0.0f;
+    override fun getTopFadingEdgeStrength(): Float {
+        return 0.0f
     }
 }
