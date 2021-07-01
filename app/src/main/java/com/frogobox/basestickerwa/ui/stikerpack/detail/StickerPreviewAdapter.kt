@@ -5,74 +5,49 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree.
  */
+package com.frogobox.basestickerwa.ui.stikerpack.detail
 
-package com.frogobox.basestickerwa.ui.stikerpack.detail;
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.frogobox.basestickerwa.R
+import com.frogobox.basestickerwa.model.StickerPack
+import com.frogobox.basestickerwa.util.StickerPackLoader
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+class StickerPreviewAdapter(
+    private val layoutInflater: LayoutInflater,
+    private val errorResource: Int,
+    private val cellSize: Int,
+    private val cellPadding: Int,
+    private val stickerPack: StickerPack
+) : RecyclerView.Adapter<StickerPreviewViewHolder>() {
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+    private val cellLimit = 0
 
-import com.frogobox.basestickerwa.R;
-import com.frogobox.basestickerwa.model.StickerPack;
-import com.frogobox.basestickerwa.util.StickerPackLoader;
-
-public class StickerPreviewAdapter extends RecyclerView.Adapter<StickerPreviewViewHolder> {
-
-    @NonNull
-    private final StickerPack stickerPack;
-
-    private final int cellSize;
-    private final int cellLimit;
-    private final int cellPadding;
-    private final int errorResource;
-
-    private final LayoutInflater layoutInflater;
-
-    public StickerPreviewAdapter(
-            @NonNull final LayoutInflater layoutInflater,
-            final int errorResource,
-            final int cellSize,
-            final int cellPadding,
-            @NonNull final StickerPack stickerPack) {
-        this.cellSize = cellSize;
-        this.cellPadding = cellPadding;
-        this.cellLimit = 0;
-        this.layoutInflater = layoutInflater;
-        this.errorResource = errorResource;
-        this.stickerPack = stickerPack;
+    override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): StickerPreviewViewHolder {
+        val itemView = layoutInflater.inflate(R.layout.sticker_image_item, viewGroup, false)
+        val vh = StickerPreviewViewHolder(itemView)
+        val layoutParams = vh.stickerPreviewView.layoutParams
+        layoutParams.height = cellSize
+        layoutParams.width = cellSize
+        vh.stickerPreviewView.layoutParams = layoutParams
+        vh.stickerPreviewView.setPadding(cellPadding, cellPadding, cellPadding, cellPadding)
+        return vh
     }
 
-    @NonNull
-    @Override
-    public StickerPreviewViewHolder onCreateViewHolder(@NonNull final ViewGroup viewGroup, final int i) {
-        View itemView = layoutInflater.inflate(R.layout.sticker_image_item, viewGroup, false);
-        StickerPreviewViewHolder vh = new StickerPreviewViewHolder(itemView);
-
-        ViewGroup.LayoutParams layoutParams = vh.stickerPreviewView.getLayoutParams();
-        layoutParams.height = cellSize;
-        layoutParams.width = cellSize;
-        vh.stickerPreviewView.setLayoutParams(layoutParams);
-        vh.stickerPreviewView.setPadding(cellPadding, cellPadding, cellPadding, cellPadding);
-
-        return vh;
+    override fun onBindViewHolder(stickerPreviewViewHolder: StickerPreviewViewHolder, i: Int) {
+        stickerPreviewViewHolder.stickerPreviewView.setImageResource(errorResource)
+        stickerPreviewViewHolder.stickerPreviewView.setImageURI(
+            StickerPackLoader.getStickerAssetUri(
+                stickerPack.identifier, stickerPack.stickers[i].imageFileName
+            )
+        )
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull final StickerPreviewViewHolder stickerPreviewViewHolder, final int i) {
-        stickerPreviewViewHolder.stickerPreviewView.setImageResource(errorResource);
-        stickerPreviewViewHolder.stickerPreviewView.setImageURI(StickerPackLoader.getStickerAssetUri(stickerPack.identifier, stickerPack.getStickers().get(i).imageFileName));
-    }
-
-    @Override
-    public int getItemCount() {
-        int numberOfPreviewImagesInPack;
-        numberOfPreviewImagesInPack = stickerPack.getStickers().size();
-        if (cellLimit > 0) {
-            return Math.min(numberOfPreviewImagesInPack, cellLimit);
-        }
-        return numberOfPreviewImagesInPack;
+    override fun getItemCount(): Int {
+        val numberOfPreviewImagesInPack: Int = stickerPack.stickers.size
+        return if (cellLimit > 0) {
+            Math.min(numberOfPreviewImagesInPack, cellLimit)
+        } else numberOfPreviewImagesInPack
     }
 }

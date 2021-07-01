@@ -5,126 +5,132 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree.
  */
+package com.frogobox.basestickerwa.ui.stikerpack.list
 
-package com.frogobox.basestickerwa.ui.stikerpack.list;
+import android.content.Intent
+import android.graphics.drawable.Drawable
+import android.os.Build
+import android.text.format.Formatter
+import android.util.TypedValue
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import androidx.recyclerview.widget.RecyclerView
+import com.facebook.drawee.view.SimpleDraweeView
+import com.frogobox.basestickerwa.R
+import com.frogobox.basestickerwa.model.StickerPack
+import com.frogobox.basestickerwa.ui.stikerpack.detail.StickerPackDetailsActivity
+import com.frogobox.basestickerwa.util.StickerPackLoader
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.text.format.Formatter;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+class StickerPackListAdapter internal constructor(
+    private var stickerPacks: List<StickerPack>,
+    private val onAddButtonClickedListener: OnAddButtonClickedListener
+) : RecyclerView.Adapter<StickerPackListViewHolder>() {
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+    private var maxNumberOfStickersInARow = 0
+    private var minMarginBetweenImages = 0
 
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.frogobox.basestickerwa.R;
-import com.frogobox.basestickerwa.model.StickerPack;
-import com.frogobox.basestickerwa.ui.stikerpack.detail.StickerPackDetailsActivity;
-import com.frogobox.basestickerwa.util.StickerPackLoader;
-
-import java.util.List;
-
-public class StickerPackListAdapter extends RecyclerView.Adapter<StickerPackListViewHolder> {
-    @NonNull
-    private List<StickerPack> stickerPacks;
-    @NonNull
-    private final OnAddButtonClickedListener onAddButtonClickedListener;
-    private int maxNumberOfStickersInARow;
-    private int minMarginBetweenImages;
-
-    StickerPackListAdapter(@NonNull List<StickerPack> stickerPacks, @NonNull OnAddButtonClickedListener onAddButtonClickedListener) {
-        this.stickerPacks = stickerPacks;
-        this.onAddButtonClickedListener = onAddButtonClickedListener;
+    override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): StickerPackListViewHolder {
+        val context = viewGroup.context
+        val layoutInflater = LayoutInflater.from(context)
+        val stickerPackRow =
+            layoutInflater.inflate(R.layout.sticker_packs_list_item, viewGroup, false)
+        return StickerPackListViewHolder(stickerPackRow)
     }
 
-    @NonNull
-    @Override
-    public StickerPackListViewHolder onCreateViewHolder(@NonNull final ViewGroup viewGroup, final int i) {
-        final Context context = viewGroup.getContext();
-        final LayoutInflater layoutInflater = LayoutInflater.from(context);
-        final View stickerPackRow = layoutInflater.inflate(R.layout.sticker_packs_list_item, viewGroup, false);
-        return new StickerPackListViewHolder(stickerPackRow);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull final StickerPackListViewHolder viewHolder, final int index) {
-        StickerPack pack = stickerPacks.get(index);
-        final Context context = viewHolder.publisherView.getContext();
-        viewHolder.publisherView.setText(pack.publisher);
-        viewHolder.filesizeView.setText(Formatter.formatShortFileSize(context, pack.getTotalSize()));
-
-        viewHolder.titleView.setText(pack.name);
-        viewHolder.container.setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(), StickerPackDetailsActivity.class);
-            intent.putExtra(StickerPackDetailsActivity.EXTRA_SHOW_UP_BUTTON, true);
-            intent.putExtra(StickerPackDetailsActivity.EXTRA_STICKER_PACK_DATA, pack);
-            view.getContext().startActivity(intent);
-        });
-        viewHolder.imageRowView.removeAllViews();
+    override fun onBindViewHolder(viewHolder: StickerPackListViewHolder, index: Int) {
+        val pack = stickerPacks[index]
+        val context = viewHolder.publisherView.context
+        viewHolder.publisherView.text = pack.publisher
+        viewHolder.filesizeView.text = Formatter.formatShortFileSize(context, pack.totalSize)
+        viewHolder.titleView.text = pack.name
+        viewHolder.container.setOnClickListener { view: View ->
+            val intent = Intent(view.context, StickerPackDetailsActivity::class.java)
+            intent.putExtra(StickerPackDetailsActivity.EXTRA_SHOW_UP_BUTTON, true)
+            intent.putExtra(StickerPackDetailsActivity.EXTRA_STICKER_PACK_DATA, pack)
+            view.context.startActivity(intent)
+        }
+        viewHolder.imageRowView.removeAllViews()
         //if this sticker pack contains less stickers than the max, then take the smaller size.
-        int actualNumberOfStickersToShow = Math.min(maxNumberOfStickersInARow, pack.getStickers().size());
-        for (int i = 0; i < actualNumberOfStickersToShow; i++) {
-            final SimpleDraweeView rowImage = (SimpleDraweeView) LayoutInflater.from(context).inflate(R.layout.sticker_packs_list_image_item, viewHolder.imageRowView, false);
-            rowImage.setImageURI(StickerPackLoader.getStickerAssetUri(pack.identifier, pack.getStickers().get(i).imageFileName));
-            final LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) rowImage.getLayoutParams();
-            final int marginBetweenImages = minMarginBetweenImages - lp.leftMargin - lp.rightMargin;
+        val actualNumberOfStickersToShow = Math.min(maxNumberOfStickersInARow, pack.stickers.size)
+        for (i in 0 until actualNumberOfStickersToShow) {
+            val rowImage = LayoutInflater.from(context).inflate(
+                R.layout.sticker_packs_list_image_item,
+                viewHolder.imageRowView,
+                false
+            ) as SimpleDraweeView
+            rowImage.setImageURI(
+                StickerPackLoader.getStickerAssetUri(
+                    pack.identifier,
+                    pack.stickers[i].imageFileName
+                )
+            )
+            val lp = rowImage.layoutParams as LinearLayout.LayoutParams
+            val marginBetweenImages = minMarginBetweenImages - lp.leftMargin - lp.rightMargin
             if (i != actualNumberOfStickersToShow - 1 && marginBetweenImages > 0) { //do not set the margin for the last image
-                lp.setMargins(lp.leftMargin, lp.topMargin, lp.rightMargin + marginBetweenImages, lp.bottomMargin);
-                rowImage.setLayoutParams(lp);
+                lp.setMargins(
+                    lp.leftMargin,
+                    lp.topMargin,
+                    lp.rightMargin + marginBetweenImages,
+                    lp.bottomMargin
+                )
+                rowImage.layoutParams = lp
             }
-            viewHolder.imageRowView.addView(rowImage);
+            viewHolder.imageRowView.addView(rowImage)
         }
-        setAddButtonAppearance(viewHolder.addButton, pack);
+        setAddButtonAppearance(viewHolder.addButton, pack)
     }
 
-    private void setAddButtonAppearance(ImageView addButton, StickerPack pack) {
-        if (pack.getIsWhitelisted()) {
-            addButton.setImageResource(R.drawable.sticker_3rdparty_added);
-            addButton.setClickable(false);
-            addButton.setOnClickListener(null);
-            setBackground(addButton, null);
+    private fun setAddButtonAppearance(addButton: ImageView, pack: StickerPack) {
+        if (pack.isWhitelisted) {
+            addButton.setImageResource(R.drawable.sticker_3rdparty_added)
+            addButton.isClickable = false
+            addButton.setOnClickListener(null)
+            setBackground(addButton, null)
         } else {
-            addButton.setImageResource(R.drawable.sticker_3rdparty_add);
-            addButton.setOnClickListener(v -> onAddButtonClickedListener.onAddButtonClicked(pack));
-            TypedValue outValue = new TypedValue();
-            addButton.getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
-            addButton.setBackgroundResource(outValue.resourceId);
+            addButton.setImageResource(R.drawable.sticker_3rdparty_add)
+            addButton.setOnClickListener { v: View? ->
+                onAddButtonClickedListener.onAddButtonClicked(
+                    pack
+                )
+            }
+            val outValue = TypedValue()
+            addButton.context.theme.resolveAttribute(
+                android.R.attr.selectableItemBackground,
+                outValue,
+                true
+            )
+            addButton.setBackgroundResource(outValue.resourceId)
         }
     }
 
-    private void setBackground(View view, Drawable background) {
+    private fun setBackground(view: View, background: Drawable?) {
         if (Build.VERSION.SDK_INT >= 16) {
-            view.setBackground(background);
+            view.background = background
         } else {
-            view.setBackgroundDrawable(background);
+            view.setBackgroundDrawable(background)
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return stickerPacks.size();
+    override fun getItemCount(): Int {
+        return stickerPacks.size
     }
 
-    void setImageRowSpec(int maxNumberOfStickersInARow, int minMarginBetweenImages) {
-        this.minMarginBetweenImages = minMarginBetweenImages;
+    fun setImageRowSpec(maxNumberOfStickersInARow: Int, minMarginBetweenImages: Int) {
+        this.minMarginBetweenImages = minMarginBetweenImages
         if (this.maxNumberOfStickersInARow != maxNumberOfStickersInARow) {
-            this.maxNumberOfStickersInARow = maxNumberOfStickersInARow;
-            notifyDataSetChanged();
+            this.maxNumberOfStickersInARow = maxNumberOfStickersInARow
+            notifyDataSetChanged()
         }
     }
 
-    void setStickerPackList(List<StickerPack> stickerPackList) {
-        this.stickerPacks = stickerPackList;
+    fun setStickerPackList(stickerPackList: List<StickerPack>) {
+        stickerPacks = stickerPackList
     }
 
-    public interface OnAddButtonClickedListener {
-        void onAddButtonClicked(StickerPack stickerPack);
+    interface OnAddButtonClickedListener {
+        fun onAddButtonClicked(stickerPack: StickerPack?)
     }
 }

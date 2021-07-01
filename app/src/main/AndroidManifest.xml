@@ -4,7 +4,7 @@
     package="com.frogobox.basestickerwa">
 
     <application
-        android:name="com.frogobox.basestickerwa.StickerApplication"
+        android:name=".StickerApplication"
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
