@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.frogobox.basestickerwa">
+    package="com.frogobox.stickerwa">
 
     <application
-        android:name=".StickerApplication"
+        android:name="com.frogobox.stickerwa.StickerApplication"
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
@@ -13,33 +13,33 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.frogobox.basestickerwa.ui.entry.EntryActivity">
+        <activity android:name="com.frogobox.stickerwa.ui.entry.EntryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.frogobox.basestickerwa.ui.stikerpack.list.StickerPackListActivity" />
+        <activity android:name="com.frogobox.stickerwa.ui.stikerpack.list.StickerPackListActivity" />
         <activity
-            android:name="com.frogobox.basestickerwa.ui.stikerpack.detail.StickerPackDetailsActivity"
-            android:parentActivityName="com.frogobox.basestickerwa.ui.stikerpack.list.StickerPackListActivity"
+            android:name="com.frogobox.stickerwa.ui.stikerpack.detail.StickerPackDetailsActivity"
+            android:parentActivityName="com.frogobox.stickerwa.ui.stikerpack.list.StickerPackListActivity"
             tools:ignore="UnusedAttribute">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.frogobox.basestickerwa.ui.stikerpack.list.StickerPackListActivity" />
+                android:value="com.frogobox.stickerwa.ui.stikerpack.list.StickerPackListActivity" />
         </activity>
         <activity
-            android:name="com.frogobox.basestickerwa.ui.stikerpack.info.StickerPackInfoActivity"
+            android:name="com.frogobox.stickerwa.ui.stikerpack.info.StickerPackInfoActivity"
             android:label="@string/title_activity_sticker_pack_info"
-            android:parentActivityName="com.frogobox.basestickerwa.ui.stikerpack.detail.StickerPackDetailsActivity"
+            android:parentActivityName="com.frogobox.stickerwa.ui.stikerpack.detail.StickerPackDetailsActivity"
             tools:ignore="UnusedAttribute">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.frogobox.basestickerwa.ui.stikerpack.detail.StickerPackDetailsActivity" />
+                android:value="com.frogobox.stickerwa.ui.stikerpack.detail.StickerPackDetailsActivity" />
         </activity>
 
         <provider
-            android:name="com.frogobox.basestickerwa.provider.StickerContentProvider"
+            android:name="com.frogobox.stickerwa.provider.StickerContentProvider"
             android:authorities="${contentProviderAuthority}"
             android:enabled="true"
             android:exported="true"

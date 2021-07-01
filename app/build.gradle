@@ -8,7 +8,7 @@ android {
     }
 
     // Declaration app name
-    def nameApp = "Base Sticker WA"
+    def nameApp = "Sticker WA"
 
     def versionPropsFile = file('version.properties')
     Properties versionProps = new Properties()
@@ -31,7 +31,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.frogobox.basestickerwa"
+        applicationId "com.frogobox.stickerwa"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
