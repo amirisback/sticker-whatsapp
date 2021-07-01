@@ -10,12 +10,14 @@ package com.frogobox.basestickerwa.ui.stikerpack.list;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.frogobox.basestickerwa.R;
+import com.frogobox.basestickerwa.databinding.ActivityStickerPackListBinding;
 import com.frogobox.basestickerwa.model.StickerPack;
 import com.frogobox.basestickerwa.ui.addstiker.AddStickerPackActivity;
 import com.frogobox.basestickerwa.util.WhitelistCheck;
@@ -27,19 +29,21 @@ import java.util.List;
 
 
 public class StickerPackListActivity extends AddStickerPackActivity {
+
     public static final String EXTRA_STICKER_PACK_LIST_DATA = "sticker_pack_list";
     private static final int STICKER_PREVIEW_DISPLAY_LIMIT = 5;
     private LinearLayoutManager packLayoutManager;
-    private RecyclerView packRecyclerView;
     private StickerPackListAdapter allStickerPacksListAdapter;
     private WhiteListCheckAsyncTask whiteListCheckAsyncTask;
     private ArrayList<StickerPack> stickerPackList;
 
+    private ActivityStickerPackListBinding binding;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sticker_pack_list);
-        packRecyclerView = findViewById(R.id.sticker_pack_list);
+        binding = ActivityStickerPackListBinding.inflate(LayoutInflater.from(this));
+        setContentView(binding.getRoot());
         stickerPackList = getIntent().getParcelableArrayListExtra(EXTRA_STICKER_PACK_LIST_DATA);
         showStickerPackList(stickerPackList);
         if (getSupportActionBar() != null) {
@@ -65,16 +69,16 @@ public class StickerPackListActivity extends AddStickerPackActivity {
 
     private void showStickerPackList(List<StickerPack> stickerPackList) {
         allStickerPacksListAdapter = new StickerPackListAdapter(stickerPackList, onAddButtonClickedListener);
-        packRecyclerView.setAdapter(allStickerPacksListAdapter);
+        binding.stickerPackList.setAdapter(allStickerPacksListAdapter);
         packLayoutManager = new LinearLayoutManager(this);
         packLayoutManager.setOrientation(RecyclerView.VERTICAL);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-                packRecyclerView.getContext(),
+                binding.stickerPackList.getContext(),
                 packLayoutManager.getOrientation()
         );
-        packRecyclerView.addItemDecoration(dividerItemDecoration);
-        packRecyclerView.setLayoutManager(packLayoutManager);
-        packRecyclerView.getViewTreeObserver().addOnGlobalLayoutListener(this::recalculateColumnCount);
+        binding.stickerPackList.addItemDecoration(dividerItemDecoration);
+        binding.stickerPackList.setLayoutManager(packLayoutManager);
+        binding.stickerPackList.getViewTreeObserver().addOnGlobalLayoutListener(this::recalculateColumnCount);
     }
 
 
@@ -84,7 +88,7 @@ public class StickerPackListActivity extends AddStickerPackActivity {
     private void recalculateColumnCount() {
         final int previewSize = getResources().getDimensionPixelSize(R.dimen.sticker_pack_list_item_preview_image_size);
         int firstVisibleItemPosition = packLayoutManager.findFirstVisibleItemPosition();
-        StickerPackListViewHolder viewHolder = (StickerPackListViewHolder) packRecyclerView.findViewHolderForAdapterPosition(firstVisibleItemPosition);
+        StickerPackListViewHolder viewHolder = (StickerPackListViewHolder) binding.stickerPackList.findViewHolderForAdapterPosition(firstVisibleItemPosition);
         if (viewHolder != null) {
             final int widthOfImageRow = viewHolder.imageRowView.getMeasuredWidth();
             final int max = Math.max(widthOfImageRow / previewSize, 1);

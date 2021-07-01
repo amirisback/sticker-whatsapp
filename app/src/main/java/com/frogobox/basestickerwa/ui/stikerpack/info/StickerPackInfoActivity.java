@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -26,6 +27,8 @@ import androidx.core.view.ViewCompat;
 
 import com.frogobox.basestickerwa.R;
 import com.frogobox.basestickerwa.base.BaseActivity;
+import com.frogobox.basestickerwa.databinding.ActivityStickerPackDetailsBinding;
+import com.frogobox.basestickerwa.databinding.ActivityStickerPackInfoBinding;
 import com.frogobox.basestickerwa.ui.stikerpack.detail.StickerPackDetailsActivity;
 
 import java.io.FileNotFoundException;
@@ -35,10 +38,13 @@ public class StickerPackInfoActivity extends BaseActivity {
 
     private static final String TAG = "StickerPackInfoActivity";
 
+    private ActivityStickerPackInfoBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sticker_pack_info);
+        binding = ActivityStickerPackInfoBinding.inflate(LayoutInflater.from(this));
+        setContentView(binding.getRoot());
 
         final String trayIconUriString = getIntent().getStringExtra(StickerPackDetailsActivity.EXTRA_STICKER_PACK_TRAY_ICON);
         final String website = getIntent().getStringExtra(StickerPackDetailsActivity.EXTRA_STICKER_PACK_WEBSITE);
@@ -64,22 +70,21 @@ public class StickerPackInfoActivity extends BaseActivity {
             Log.e(TAG, "could not find the uri for the tray image:" + trayIconUriString);
         }
 
-        setupTextView(website, R.id.view_webpage);
+        setupTextView(website, binding.viewWebpage);
 
-        final TextView sendEmail = findViewById(R.id.send_email);
+
         if (TextUtils.isEmpty(email)) {
-            sendEmail.setVisibility(View.GONE);
+            binding.sendEmail.setVisibility(View.GONE);
         } else {
-            sendEmail.setOnClickListener(v -> launchEmailClient(email));
+            binding.sendEmail.setOnClickListener(v -> launchEmailClient(email));
         }
 
-        setupTextView(privacyPolicy, R.id.privacy_policy);
+        setupTextView(privacyPolicy, binding.privacyPolicy);
 
-        setupTextView(licenseAgreement, R.id.license_agreement);
+        setupTextView(licenseAgreement, binding.licenseAgreement);
     }
 
-    private void setupTextView(String website, @IdRes int textViewResId) {
-        final TextView viewWebpage = findViewById(textViewResId);
+    private void setupTextView(String website, TextView viewWebpage) {
         if (TextUtils.isEmpty(website)) {
             viewWebpage.setVisibility(View.GONE);
         } else {
