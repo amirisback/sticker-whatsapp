@@ -2,40 +2,40 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    //the compression of webp file during build causes problem with FileDescriptor in ContentProvider.
-    aaptOptions {
-        noCompress "webp"
-    }
+
+    def versionMajor = 1
+    def versionMinor = 0
+    def versionPatch = 0
+
+    def appDomain = "com"
+    def appDevConsole = "frogobox"
+    def appName = "stickerwa"
+
+    def projectApplicationId = "$appDomain.$appDevConsole.$appName"
+    def projectVersionCode = (versionMajor * 100) + (versionMinor * 10) + (versionPatch * 1)
+    def projectVersionName = "$versionMajor.$versionMinor.$versionPatch"
 
     // Declaration app name
     def nameApp = "Sticker WA"
 
-    def versionPropsFile = file('version.properties')
-    Properties versionProps = new Properties()
-
-    if (versionPropsFile.canRead()) {
-        versionProps.load(new FileInputStream(versionPropsFile))
-    } else {
-        versionProps['VERSION_CODE'] = '0'
-    }
-
     // Declaration apk / aab name
     def nameAPK = nameApp.toLowerCase().replace(" ", "-")
 
-    def code = versionProps['VERSION_CODE'].toInteger()
 
-    versionProps['VERSION_CODE'] = code.toString()
-    versionProps.store(versionPropsFile.newWriter(), null)
+    // the compression of webp file during build causes problem with FileDescriptor in ContentProvider.
+    aaptOptions {
+        noCompress "webp"
+    }
 
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.frogobox.stickerwa"
+        applicationId projectApplicationId
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0.0"
+        versionCode projectVersionCode
+        versionName projectVersionName
 
         multiDexEnabled true
 
@@ -68,7 +68,7 @@ android {
         def debugAdmobNativeAdvancedVideo = "ca-app-pub-3940256099942544/1044960115"
 
         // Naming APK // AAB
-        setProperty("archivesBaseName", nameAPK + versionName + "#" + code + "-"
+        setProperty("archivesBaseName", nameAPK + "#" + versionName + "-"
                 + new Date().format('ddMMyy'))
 
         resConfigs "en", "id"
