@@ -27,7 +27,8 @@ abstract class BaseActivity : FrogoAdmobActivity() {
         setBasePublisherID(getString(R.string.admob_publisher_id))
         setBaseBannerAdUnitID(getString(R.string.admob_banner))
         setBaseInterstialAdUnitID(getString(R.string.admob_interstitial))
-        setBaseRewardedAdUnitID(getString(R.string.admob_rewarded_video))
+        setBaseRewardedAdUnitID(getString(R.string.admob_rewarded))
+        setBaseRewardedInterstitialAdUnitID(getString(R.string.admob_rewarded_interstitial))
         setBaseAdmob()
     }
 
