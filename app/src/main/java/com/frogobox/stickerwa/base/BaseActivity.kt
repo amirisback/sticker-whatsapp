@@ -13,7 +13,7 @@ import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import com.frogobox.admob.core.admob.FrogoAdmobActivity
+import com.frogobox.admob.ui.FrogoAdmobActivity
 import com.frogobox.stickerwa.R
 
 abstract class BaseActivity : FrogoAdmobActivity() {
@@ -24,12 +24,16 @@ abstract class BaseActivity : FrogoAdmobActivity() {
     }
 
     private fun setupAdmob() {
-        setBasePublisherID(getString(R.string.admob_publisher_id))
-        setBaseBannerAdUnitID(getString(R.string.admob_banner))
-        setBaseInterstialAdUnitID(getString(R.string.admob_interstitial))
-        setBaseRewardedAdUnitID(getString(R.string.admob_rewarded))
-        setBaseRewardedInterstitialAdUnitID(getString(R.string.admob_rewarded_interstitial))
-        setBaseAdmob()
+        setBanner()
+        setInterstitial()
+    }
+
+    private fun setBanner() {
+        setupAdsBanner(getString(R.string.admob_banner))
+    }
+
+    private fun setInterstitial() {
+        setupAdsInterstitial(getString(R.string.admob_interstitial))
     }
 
     override fun onSupportNavigateUp(): Boolean {
