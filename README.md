@@ -24,5 +24,7 @@ Name Of Contribute
 Waiting for your contribute
 
 ## Attention !!!
-Please enjoy and don't forget fork and give a star
+- Please enjoy and don't forget fork and give a star
 - Don't Forget Follow My Github Account
+
+![](docs/image/mad_score.png?raw=true)
